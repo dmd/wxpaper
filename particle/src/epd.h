@@ -114,6 +114,7 @@ void epd_set_ch_font(unsigned char font);
 
 void epd_draw_pixel(int x0, int y0);
 void epd_draw_line(int x0, int y0, int x1, int y1);
+void epd_draw_rect(int x0, int y0, int x1, int y1);
 void epd_fill_rect(int x0, int y0, int x1, int y1);
 void epd_draw_circle(int x0, int y0, int r);
 void epd_fill_circle(int x0, int y0, int r);

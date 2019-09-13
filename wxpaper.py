@@ -48,8 +48,22 @@ def icon(iconsize, condition):
     return f"{iconsize}" + iconmap.get(condition, condition.upper()) + ".BMP"
 
 
+def paper_rect(x0, y0, x1, y1):
+    particle(
+        "function",
+        "call",
+        particle_id,
+        "rect",
+        "|".join((str(x0), str(y0), str(x1), str(y1))),
+    )
+
+
 def paper_image(bitmap, x, y):
     particle("function", "call", particle_id, "img", "|".join((bitmap, str(x), str(y))))
+
+
+def paper_fontsize(s):
+    particle("function", "call", particle_id, "fontsize", str(s))
 
 
 def paper_bignum(n, x, y):
@@ -73,6 +87,7 @@ def paper_update():
 
 
 paper_clear()
+
 temp_now = two_dig(now.apparent_temperature)
 paper_bignum(temp_now[0], 20, 20)
 paper_bignum(temp_now[1], 160, 20)
@@ -92,7 +107,13 @@ paper_image(icon(3, today.icon), 500, 290)
 paper_image("UV.BMP", 20, 470)
 paper_smallnum(uv_one_dig(today.uv_index), 80, 310)
 
+paper_fontsize(32)
 paper_text(today.summary, 20, 570)
-paper_text(datetime.now().strftime("Updated %A %H:%M."), 20, 5)
+paper_text(datetime.now().strftime("Last update %H:%M"), 20, 5)
+
+paper_fontsize(64)
+paper_text(datetime.now().strftime("%a"), 310, 370)
+paper_text(datetime.now().strftime("%b %-d"), 280, 440)
+paper_rect(260, 360, 455, 520)
 
 paper_update()
