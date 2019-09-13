@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from darksky.api import DarkSky, DarkSkyAsync
 from darksky.types import languages, units, weather
