@@ -3,6 +3,7 @@
 from darksky.api import DarkSky, DarkSkyAsync
 from darksky.types import languages, units, weather
 from sh import particle
+from datetime import datetime
 
 particle_id = "3eink"
 API_KEY = open("darksky-secret").readline().rstrip()
@@ -92,5 +93,6 @@ paper_image("UV.BMP", 20, 470)
 paper_smallnum(uv_one_dig(today.uv_index), 80, 310)
 
 paper_text(today.summary, 20, 570)
+paper_text(datetime.now().strftime("Updated %A %H:%M."), 20, 5)
 
 paper_update()
