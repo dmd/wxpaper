@@ -4,7 +4,7 @@ from darksky.api import DarkSky, DarkSkyAsync
 from darksky.types import languages, units, weather
 from sh import particle
 
-particle_id = '3eink'
+particle_id = "3eink"
 API_KEY = open("darksky-secret").readline().rstrip()
 darksky = DarkSky(API_KEY)
 lat, lon = 42.417821, -71.177747
@@ -47,70 +47,49 @@ def icon(iconsize, condition):
     return f"{iconsize}" + iconmap.get(condition, condition.upper()) + ".BMP"
 
 
-# current, high, low, current-icon, UV, worst-icon, precipprob, summary
-payload = "|".join(
-    [
-        two_dig(now.apparent_temperature),
-        two_dig(today.apparent_temperature_high),
-        two_dig(today.apparent_temperature_low),
-        icon(3, now.icon),
-        uv_one_dig(today.uv_index),
-        icon(3, today.icon),
-        two_dig(100 * today.precip_probability, HILO=False),
-        today.summary,
-    ]
-)
-print(payload)
-
-
-
 def paper_image(bitmap, x, y):
-    particle('function', 'call', particle_id, 'img', '|'.join((bitmap, str(x), str(y))))
+    particle("function", "call", particle_id, "img", "|".join((bitmap, str(x), str(y))))
+
 
 def paper_bignum(n, x, y):
-    paper_image(f'300_{n}.BMP', x, y)
+    paper_image(f"300_{n}.BMP", x, y)
+
 
 def paper_smallnum(n, x, y):
-    paper_image(f'150_{n}.BMP', x, y)
+    paper_image(f"165_{n}.BMP", x, y)
+
 
 def paper_text(text, x, y):
-    particle('function', 'call', particle_id, 'text', '|'.join((text, str(x), str(y))))
+    particle("function", "call", particle_id, "text", "|".join((text, str(x), str(y))))
+
 
 def paper_clear():
-    particle('function', 'call', particle_id, 'clear')
+    particle("function", "call", particle_id, "clear")
+
 
 def paper_update():
-    particle('function', 'call', particle_id, 'update')
-
+    particle("function", "call", particle_id, "update")
 
 
 paper_clear()
-# temp_now      20,20   160,20
 temp_now = two_dig(now.apparent_temperature)
 paper_bignum(temp_now[0], 20, 20)
 paper_bignum(temp_now[1], 160, 20)
 
-# temp_hi       310,20  380,20
 temp_hi = two_dig(today.apparent_temperature_high)
-paper_smallnum(temp_hi[0], 310, 20)
-paper_smallnum(temp_hi[1], 380, 20)
+paper_smallnum(temp_hi[0], 310, 10)
+paper_smallnum(temp_hi[1], 390, 10)
 
-# temp_low      310,170 380,170
 temp_low = two_dig(today.apparent_temperature_low)
-paper_smallnum(temp_low[0], 310, 170)
-paper_smallnum(temp_low[1], 380, 170)
+paper_smallnum(temp_low[0], 310, 175)
+paper_smallnum(temp_low[1], 390, 175)
 
-# icon_now      500,30
 paper_image(icon(3, now.icon), 500, 30)
 
-# icon_today    500,290
 paper_image(icon(3, today.icon), 500, 290)
 
-# icon_shades   20,470
-paper_image('UV.BMP', 20, 470)
-
-# uv            80,320
-paper_smallnum(uv_one_dig(today.uv_index), 80, 320)
+paper_image("UV.BMP", 20, 470)
+paper_smallnum(uv_one_dig(today.uv_index), 80, 310)
 
 paper_text(today.summary, 20, 570)
 
