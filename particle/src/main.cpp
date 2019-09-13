@@ -1,5 +1,20 @@
+/******************************************************/
+//       THIS IS A GENERATED FILE - DO NOT EDIT       //
+/******************************************************/
+
+#include "application.h"
+#line 1 "/Users/ddrucker/wxpaper/particle/src/main.ino"
 #include "epd.h"
 
+void setup(void);
+int fontsize(String x);
+int clear(String x);
+int rect(String coords);
+int img(String imginfo);
+int text(String textinfo);
+int update(String x);
+void loop();
+#line 3 "/Users/ddrucker/wxpaper/particle/src/main.ino"
 void setup(void)
 {
     epd_init();
@@ -17,19 +32,6 @@ void setup(void)
     Particle.function("text", text);
     Particle.function("update", update);
     Particle.function("rect", rect);
-    Particle.function("deepsleep", deepsleep);
-    Particle.function("wake", wake);
-    Particle.function("stop", stop);
-
-    epd_enter_stopmode();
-
-    //System.sleep(SLEEP_MODE_DEEP, 60);
-}
-
-int deepsleep(String seconds)
-{
-    epd_enter_stopmode();
-    System.sleep(seconds.toInt());
 }
 
 int fontsize(String x)
@@ -42,19 +44,9 @@ int fontsize(String x)
         epd_set_en_font(ASCII64);
 }
 
-int wake(String x)
-{
-    epd_wakeup();
-}
-
 int clear(String x)
 {
     epd_clear();
-}
-
-int stop(String x)
-{
-    epd_enter_stopmode();
 }
 
 int rect(String coords)
@@ -99,4 +91,9 @@ int text(String textinfo)
 int update(String x)
 {
     epd_update();
+}
+
+void loop()
+{
+    delay(10000);
 }
