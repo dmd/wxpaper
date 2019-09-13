@@ -5,3 +5,4 @@ darksky-secret
 __pycache__
 *.bin
 .vscode
+all.zip
