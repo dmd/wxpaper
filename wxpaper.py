@@ -78,15 +78,12 @@ def paper_text(text, x, y):
     particle("function", "call", particle_id, "text", "|".join((text, str(x), str(y))))
 
 
-def paper_clear():
-    particle("function", "call", particle_id, "clear")
+def paper_cmd(cmd):
+    particle("function", "call", particle_id, cmd)
 
 
-def paper_update():
-    particle("function", "call", particle_id, "update")
-
-
-paper_clear()
+paper_cmd("wake")
+paper_cmd("clear")
 
 temp_now = two_dig(now.apparent_temperature)
 paper_bignum(temp_now[0], 20, 20)
@@ -116,4 +113,5 @@ paper_text(datetime.now().strftime("%a"), 310, 370)
 paper_text(datetime.now().strftime("%b %-d"), 280, 440)
 paper_rect(260, 360, 455, 520)
 
-paper_update()
+paper_cmd("update")
+paper_cmd("stop")
