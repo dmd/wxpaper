@@ -1,0 +1,30 @@
+rm 150* 200* 300*
+for i in $(seq 0 9) H I L O
+do
+
+convert -size 70x150 xc:white -gravity Center -font AndaleMono \
+           -pointsize 150 -fill black  -annotate 0 $i  -posterize 2 \
+           -monochrome BMP3:150_$i.BMP
+
+convert -size 94x200 xc:white -gravity Center -font AndaleMono \
+           -pointsize 200 -fill black  -annotate 0 $i  -posterize 2 \
+           -monochrome BMP3:200_$i.BMP
+
+convert -size 140x300 xc:white -gravity Center -font AndaleMono \
+           -pointsize 300 -fill black  -annotate 0 $i  -posterize 2 \
+           -monochrome BMP3:300_$i.BMP
+
+done
+
+convert -size 70x150 xc:white -gravity Center -font AndaleMono \
+           -pointsize 150 -fill black  -annotate 0 "\!"  -posterize 2 \
+           -monochrome BMP3:150_X.BMP
+
+convert -size 94x200 xc:white -gravity Center -font AndaleMono \
+           -pointsize 200 -fill black  -annotate 0 "\!"  -posterize 2 \
+           -monochrome BMP3:200_X.BMP
+
+convert -size 140x300 xc:white -gravity Center -font AndaleMono \
+           -pointsize 300 -fill black  -annotate 0 "\!"  -posterize 2 \
+           -monochrome BMP3:300_X.BMP
+
