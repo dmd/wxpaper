@@ -11,15 +11,40 @@ void setup(void)
     epd_disp_string("waiting for update...", 300, 300);
     epd_update();
     Time.zone(-4);
+    Particle.function("fontsize", fontsize);
     Particle.function("clear", clear);
     Particle.function("img", img);
     Particle.function("text", text);
     Particle.function("update", update);
+    Particle.function("rect", rect);
+}
+
+int fontsize(String x)
+{
+    if (x == "32")
+        epd_set_en_font(ASCII32);
+    if (x == "48")
+        epd_set_en_font(ASCII48);
+    if (x == "64")
+        epd_set_en_font(ASCII64);
 }
 
 int clear(String x)
 {
     epd_clear();
+}
+
+int rect(String coords)
+{
+    int x0, y0, x1, y1;
+    int c1 = coords.indexOf('|');
+    int c2 = coords.indexOf('|', c1 + 1);
+    int c3 = coords.indexOf('|', c2 + 1);
+    x0 = coords.substring(0, c1).toInt();
+    y0 = coords.substring(c1 + 1, c2).toInt();
+    x1 = coords.substring(c2 + 1, c3).toInt();
+    y1 = coords.substring(c3 + 1).toInt();
+    epd_draw_rect(x0, y0, x1, y1);
 }
 
 int img(String imginfo)
