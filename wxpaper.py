@@ -115,3 +115,5 @@ paper_rect(260, 360, 455, 520)
 
 paper_cmd("update")
 paper_cmd("stop")
+
+print("done")
