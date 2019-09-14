@@ -45,7 +45,7 @@ iconmap = {
 
 
 def icon(iconsize, condition):
-    return f"{iconsize}" + iconmap.get(condition, condition.upper()) + ".BMP"
+    return str(iconsize) + iconmap.get(condition, condition.upper()) + ".BMP"
 
 
 def paper_rect(x0, y0, x1, y1):
@@ -67,11 +67,11 @@ def paper_fontsize(s):
 
 
 def paper_bignum(n, x, y):
-    paper_image(f"300_{n}.BMP", x, y)
+    paper_image("300_{}.BMP".format(n), x, y)
 
 
 def paper_smallnum(n, x, y):
-    paper_image(f"165_{n}.BMP", x, y)
+    paper_image("165_{}.BMP".format(n), x, y)
 
 
 def paper_text(text, x, y):
