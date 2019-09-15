@@ -1,5 +1,4 @@
 #include "epd.h"
-TCPClient client;
 #define SERVER_IP         \
     {                     \
         168, 235, 83, 233 \
@@ -9,17 +8,10 @@ TCPClient client;
 #define TIMEOUT_RESPONSE_READ 5000
 #define RECONNECT_DELAY 3000
 
+TCPClient client;
+
 void setup(void)
 {
-    epd_init();
-    epd_wakeup();
-    epd_set_memory(MEM_TF);
-    epd_set_color(BLACK, WHITE);
-    epd_set_en_font(ASCII32);
-    epd_clear();
-    epd_disp_string("waiting for update...", 300, 300);
-    epd_update();
-    Time.zone(-4);
     Particle.function("fontsize", fontsize);
     Particle.function("clear", clear);
     Particle.function("img", img);
@@ -29,29 +21,49 @@ void setup(void)
     Particle.function("deepsleep", deepsleep);
     Particle.function("wake", wake);
     Particle.function("stop", stop);
-    byte ip[] = SERVER_IP;
+
+    epd_init();
+    epd_wakeup();
+    epd_set_memory(MEM_TF);
+    epd_set_color(BLACK, WHITE);
+    epd_set_en_font(ASCII32);
+    epd_clear();
+    epd_disp_string("Requesting weather update.", 300, 300);
+    epd_disp_string("I will wait 3 minutes, then sleep for 30 minutes.", 300, 350);
+    epd_update();
+    Time.zone(-4);
+
     TCPClient client;
+    byte ip[] = SERVER_IP;
     client.connect(ip, SERVER_PORT);
     if (client.connected())
     {
-        client.println("push me please");
+        client.println("GET /pushmeplease HTTP/1.0");
+        client.println();
         client.stop();
     }
     else
     {
-        epd_disp_string("failed to connect", 300, 350);
+        epd_disp_string("ERROR: Failed to connect to push server.", 300, 400);
         epd_update();
     }
 
-    //epd_enter_stopmode();
+    // if we're here, we successfully sent a push request, which should put us to sleep.
+    // we need to wait for the push.
+    delay(3 * 60 * 1000); // 3 minutes in ms
 
-    //System.sleep(SLEEP_MODE_DEEP, 60);
+    // we should not reach this -- we should have been put to sleep by now.
+    epd_disp_string("ERROR: Never received push. Going to sleep.", 300, 450);
+    epd_update();
+    delay(5 * 1000); // 5 seconds in ms 
+    epd_enter_stopmode();
+    System.sleep(SLEEP_MODE_DEEP, 30 * 60); // 30 minutes in sec
 }
 
 int deepsleep(String seconds)
 {
     epd_enter_stopmode();
-    System.sleep(seconds.toInt());
+    System.sleep(SLEEP_MODE_DEEP, seconds.toInt());
 }
 
 int fontsize(String x)
