@@ -123,13 +123,13 @@ def do_update():
     paper_text(today.summary, 20, 570)
 
     nowt = datetime.datetime.now()
-    paper_text(nowt.strftime("Last update %H:%M"), 20, 5)
+    paper_text(nowt.strftime("Last update %H:%M"), 20, 1)
     paper_text(
         (nowt + datetime.timedelta(seconds=seconds_between_updates)).strftime(
             "Next update %H:%M"
         ),
         500,
-        5,
+        1,
     )
 
     # day of week and date
