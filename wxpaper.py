@@ -7,7 +7,7 @@ import datetime
 
 particle_id = "3eink"
 
-seconds_between_updates = 2 * 60
+seconds_between_updates = 6 * 60 * 60  # 6 hours
 
 
 def clamp(n, minn, maxn):
