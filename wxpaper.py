@@ -41,6 +41,7 @@ def icon(iconsize, condition):
 
 
 def paper_rect(x0, y0, x1, y1):
+    print("drawing rectangle")
     particle(
         "function",
         "call",
@@ -51,30 +52,37 @@ def paper_rect(x0, y0, x1, y1):
 
 
 def paper_image(bitmap, x, y):
+    print("drawing image: " + bitmap)
     particle("function", "call", particle_id, "img", "|".join((bitmap, str(x), str(y))))
 
 
 def paper_fontsize(s):
+    print("changing font")
     particle("function", "call", particle_id, "fontsize", str(s))
 
 
 def paper_bignum(n, x, y):
+    print("drawing a number")
     paper_image("300_{}.BMP".format(n), x, y)
 
 
 def paper_smallnum(n, x, y):
+    print("drawing a number")
     paper_image("165_{}.BMP".format(n), x, y)
 
 
 def paper_text(text, x, y):
+    print("drawing text: " + text)
     particle("function", "call", particle_id, "text", "|".join((text, str(x), str(y))))
 
 
 def paper_cmd(cmd):
+    print("running" + cmd)
     particle("function", "call", particle_id, cmd)
 
 
 def paper_deepsleep(seconds):
+    print("deep sleep {}".format(seconds))
     particle("function", "call", particle_id, "deepsleep", str(seconds_between_updates))
 
 
@@ -86,7 +94,7 @@ def do_update():
     forecast = darksky.get_forecast(
         lat, lon, exclude=[weather.MINUTELY, weather.ALERTS]
     )
-
+    print("got forecast from darksky")
     now = forecast.currently
     today = forecast.daily.data[0]
     paper_cmd("wake")
