@@ -3,9 +3,11 @@
 from darksky.api import DarkSky, DarkSkyAsync
 from darksky.types import languages, units, weather
 from sh import particle
-from datetime import datetime
+import datetime
 
 particle_id = "3eink"
+
+seconds_between_updates = 2 * 60
 
 
 def clamp(n, minn, maxn):
@@ -25,8 +27,6 @@ def uv_one_dig(n):
     if n > 9:
         return "X"
     return "{:01d}".format(int(n))
-
-
 
 
 def icon(iconsize, condition):
@@ -74,12 +74,18 @@ def paper_cmd(cmd):
     particle("function", "call", particle_id, cmd)
 
 
+def paper_deepsleep(seconds):
+    particle("function", "call", particle_id, "deepsleep", str(seconds_between_updates))
+
+
 def do_update():
     API_KEY = open("darksky-secret").readline().rstrip()
     darksky = DarkSky(API_KEY)
     lat, lon = 42.417821, -71.177747
 
-    forecast = darksky.get_forecast(lat, lon, exclude=[weather.MINUTELY, weather.ALERTS])
+    forecast = darksky.get_forecast(
+        lat, lon, exclude=[weather.MINUTELY, weather.ALERTS]
+    )
 
     now = forecast.currently
     today = forecast.daily.data[0]
@@ -107,17 +113,28 @@ def do_update():
 
     paper_fontsize(32)
     paper_text(today.summary, 20, 570)
-    paper_text(datetime.now().strftime("Last update %H:%M"), 20, 5)
 
+    nowt = datetime.datetime.now()
+    paper_text(nowt.strftime("Last update %H:%M"), 20, 5)
+    paper_text(
+        (nowt + datetime.timedelta(seconds=seconds_between_updates)).strftime(
+            "Next update %H:%M"
+        ),
+        600,
+        5,
+    )
+
+    # day of week and date
     paper_fontsize(64)
-    paper_text(datetime.now().strftime("%a"), 310, 370)
-    paper_text(datetime.now().strftime("%b %-d"), 280, 440)
+    paper_text(nowt.strftime("%a"), 310, 370)
+    paper_text(nowt.strftime("%b %-d"), 280, 440)
     paper_rect(260, 360, 455, 520)
 
     paper_cmd("update")
     paper_cmd("stop")
-
+    paper_deepsleep(seconds_between_updates)
     print("done")
+
 
 if __name__ == "__main__":
     do_update()
