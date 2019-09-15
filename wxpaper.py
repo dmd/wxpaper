@@ -3,11 +3,13 @@
 from darksky.api import DarkSky, DarkSkyAsync
 from darksky.types import languages, units, weather
 from sh import particle
-import datetime
+from datetime import timedelta, datetime, date
+import pytz
 
 particle_id = "3eink"
 
 seconds_between_updates = 6 * 60 * 60  # 6 hours
+UNTIL_MIDNIGHT = True
 
 
 def clamp(n, minn, maxn):
@@ -38,6 +40,27 @@ def icon(iconsize, condition):
         "partly-cloudly-night": "CLDNT",
     }
     return str(iconsize) + iconmap.get(condition, condition.upper()) + ".BMP"
+
+
+def worst(conditions):
+    # given the remaining conditions of the day, return the first in this list
+    priority = [
+        "snow",
+        "sleet",
+        "rain",
+        "fog",
+        "wind",
+        "cloudy",
+        "partly-cloudy-day",
+        "clear-day",
+        "partly-cloudy-night",
+        "clear-night",
+    ]
+    for p in priority:
+        if p in conditions:
+            return p
+    # just in case
+    return "clear-day"
 
 
 def paper_rect(x0, y0, x1, y1):
@@ -97,23 +120,33 @@ def do_update():
     print("got forecast from darksky")
     now = forecast.currently
     today = forecast.daily.data[0]
+    hourly = forecast.hourly.data
+
+    temp_now = two_dig(now.apparent_temperature)
+
+    if UNTIL_MIDNIGHT:
+        rest_of_day = [x for x in hourly if x.time.day == datetime.now().day]
+        temp_hi = two_dig(max([x.apparent_temperature for x in rest_of_day]))
+        temp_low = two_dig(min([x.apparent_temperature for x in rest_of_day]))
+        today_icon = worst([x.icon for x in rest_of_day])
+    else:
+        temp_hi = two_dig(today.apparent_temperature_high)
+        temp_low = two_dig(today.apparent_temperature_low)
+        today_icon = today.icon
+
     paper_cmd("wake")
     paper_cmd("clear")
 
-    temp_now = two_dig(now.apparent_temperature)
     paper_bignum(temp_now[0], 20, 20)
     paper_bignum(temp_now[1], 160, 20)
 
-    temp_hi = two_dig(today.apparent_temperature_high)
     paper_smallnum(temp_hi[0], 310, 10)
     paper_smallnum(temp_hi[1], 390, 10)
 
-    temp_low = two_dig(today.apparent_temperature_low)
     paper_smallnum(temp_low[0], 310, 175)
     paper_smallnum(temp_low[1], 390, 175)
 
     paper_image(icon(3, now.icon), 500, 30)
-
     paper_image(icon(3, today.icon), 500, 290)
 
     paper_image("UV.BMP", 20, 470)
@@ -122,10 +155,10 @@ def do_update():
     paper_fontsize(32)
     paper_text(today.summary, 20, 570)
 
-    nowt = datetime.datetime.now()
+    nowt = datetime.now()
     paper_text(nowt.strftime("Last update %H:%M"), 20, 1)
     paper_text(
-        (nowt + datetime.timedelta(seconds=seconds_between_updates)).strftime(
+        (nowt + timedelta(seconds=seconds_between_updates)).strftime(
             "Next update %H:%M"
         ),
         500,
