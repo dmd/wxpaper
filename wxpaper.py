@@ -120,7 +120,7 @@ def do_update():
         (nowt + datetime.timedelta(seconds=seconds_between_updates)).strftime(
             "Next update %H:%M"
         ),
-        600,
+        500,
         5,
     )
 
