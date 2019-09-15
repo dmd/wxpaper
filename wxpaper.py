@@ -77,7 +77,7 @@ def paper_text(text, x, y):
 
 
 def paper_cmd(cmd):
-    print("running" + cmd)
+    print("running " + cmd)
     particle("function", "call", particle_id, cmd)
 
 
