@@ -1,7 +1,7 @@
 #include "epd.h"
-#define SERVER_IP         \
-    {                     \
-        168, 235, 83, 233 \
+#define SERVER_IP    \
+    {                \
+        10, 0, 1, 38 \
     }
 #define SERVER_PORT 33223
 #define TIMEOUT_INITIAL_RESPONSE 5000
@@ -55,7 +55,7 @@ void setup(void)
     // we should not reach this -- we should have been put to sleep by now.
     epd_disp_string("ERROR: Never received push. Going to sleep.", 300, 450);
     epd_update();
-    delay(5 * 1000); // 5 seconds in ms 
+    delay(5 * 1000); // 5 seconds in ms
     epd_enter_stopmode();
     System.sleep(SLEEP_MODE_DEEP, 30 * 60); // 30 minutes in sec
 }
