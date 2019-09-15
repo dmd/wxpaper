@@ -16,9 +16,9 @@ class S(BaseHTTPRequestHandler):
             print("got push request")
             try:
                 wxpaper.do_update()
-                self.wfile.write(b"ok\n")
             except:
-                self.wfile.write(b"running wxpaper failed\n")
+                print("something went wrong calling wxpaper")
+                pass
         else:
             print("got invalid request")
             self.wfile.write(b"go away\n")
