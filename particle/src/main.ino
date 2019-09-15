@@ -1,4 +1,13 @@
 #include "epd.h"
+TCPClient client;
+#define SERVER_IP         \
+    {                     \
+        168, 235, 83, 233 \
+    }
+#define SERVER_PORT 33223
+#define TIMEOUT_INITIAL_RESPONSE 5000
+#define TIMEOUT_RESPONSE_READ 5000
+#define RECONNECT_DELAY 3000
 
 void setup(void)
 {
@@ -20,8 +29,21 @@ void setup(void)
     Particle.function("deepsleep", deepsleep);
     Particle.function("wake", wake);
     Particle.function("stop", stop);
+    byte ip[] = SERVER_IP;
+    TCPClient client;
+    client.connect(ip, SERVER_PORT);
+    if (client.connected())
+    {
+        client.println("push me please");
+        client.stop();
+    }
+    else
+    {
+        epd_disp_string("failed to connect", 300, 350);
+        epd_update();
+    }
 
-    epd_enter_stopmode();
+    //epd_enter_stopmode();
 
     //System.sleep(SLEEP_MODE_DEEP, 60);
 }
