@@ -28,8 +28,8 @@ void setup(void)
     epd_set_color(BLACK, WHITE);
     epd_set_en_font(ASCII32);
     epd_clear();
-    epd_disp_string("Requesting weather update.", 300, 300);
-    epd_disp_string("I will wait 3 minutes, then sleep for 30 minutes.", 300, 350);
+    epd_disp_string("Requesting weather update.", 100, 300);
+    epd_disp_string("I will wait 3 minutes, then sleep for 30 minutes.", 100, 350);
     epd_update();
     Time.zone(-4);
 
@@ -44,7 +44,7 @@ void setup(void)
     }
     else
     {
-        epd_disp_string("ERROR: Failed to connect to push server.", 300, 400);
+        epd_disp_string("ERROR: Failed to connect to push server.", 100, 400);
         epd_update();
     }
 
@@ -53,7 +53,7 @@ void setup(void)
     delay(3 * 60 * 1000); // 3 minutes in ms
 
     // we should not reach this -- we should have been put to sleep by now.
-    epd_disp_string("ERROR: Never received push. Going to sleep.", 300, 450);
+    epd_disp_string("ERROR: Never received push. Going to sleep.", 100, 450);
     epd_update();
     delay(5 * 1000); // 5 seconds in ms
     epd_enter_stopmode();
