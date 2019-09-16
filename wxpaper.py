@@ -8,7 +8,7 @@ import pytz
 
 particle_id = "3eink"
 
-seconds_between_updates = 6 * 60 * 60  # 6 hours
+seconds_between_updates = 4 * 60 * 60  # 6 hours
 UNTIL_MIDNIGHT = True
 
 
