@@ -1,0 +1,16 @@
+[Unit]
+Description=wxpaper push service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=pi
+Environment=PATH=/home/pi/bin
+WorkingDirectory=/home/pi/wxpaper
+ExecStart=/usr/local/opt/python-3.7.4/bin/python3.7 pushmeplease.py
+
+[Install]
+WantedBy=multi-user.target
