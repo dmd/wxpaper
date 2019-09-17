@@ -171,7 +171,7 @@ def do_update():
         (nowt + timedelta(seconds=seconds_between_updates)).strftime(
             "Next update %H:%M"
         ),
-        500,
+        550,
         1,
     )
 
