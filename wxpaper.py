@@ -106,7 +106,11 @@ def paper_cmd(cmd):
 
 def paper_deepsleep(seconds):
     print("deep sleep {}".format(seconds))
-    particle("function", "call", particle_id, "deepsleep", str(seconds_between_updates))
+    try:
+        # this is guaranteed to fail
+        particle("function", "call", particle_id, "deepsleep", str(seconds_between_updates))
+    except:
+        pass
 
 
 def do_update():
