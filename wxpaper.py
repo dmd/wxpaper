@@ -37,7 +37,7 @@ def icon(iconsize, condition):
         "clear-night": "NIGHT",
         "cloudy": "CLOUD",
         "partly-cloudy-day": "CLDAY",
-        "partly-cloudly-night": "CLDNT",
+        "partly-cloudy-night": "CLDNT",
     }
     return str(iconsize) + iconmap.get(condition, condition.upper()) + ".BMP"
 
