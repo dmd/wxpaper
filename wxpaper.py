@@ -10,6 +10,7 @@ particle_id = "3eink"
 
 seconds_between_updates = 4 * 60 * 60  # 4 hours
 UNTIL_MIDNIGHT = True
+FORECAST_ONLY = True
 
 
 def clamp(n, minn, maxn):
@@ -108,7 +109,9 @@ def paper_deepsleep(seconds):
     print("deep sleep {}".format(seconds))
     try:
         # this is guaranteed to fail
-        particle("function", "call", particle_id, "deepsleep", str(seconds_between_updates))
+        particle(
+            "function", "call", particle_id, "deepsleep", str(seconds_between_updates)
+        )
     except:
         pass
 
@@ -150,8 +153,8 @@ def do_update():
     paper_smallnum(temp_low[0], 310, 175)
     paper_smallnum(temp_low[1], 390, 175)
 
-    if now.icon == today_icon:
-        paper_image(icon(3, now.icon), 500, 160)
+    if now.icon == today_icon or FORECAST_ONLY:
+        paper_image(icon(3, today_icon), 500, 160)
     else:
         paper_image(icon(3, now.icon), 500, 30)
         paper_image(icon(3, today_icon), 500, 290)
