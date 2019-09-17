@@ -146,8 +146,11 @@ def do_update():
     paper_smallnum(temp_low[0], 310, 175)
     paper_smallnum(temp_low[1], 390, 175)
 
-    paper_image(icon(3, now.icon), 500, 30)
-    paper_image(icon(3, today_icon), 500, 290)
+    if now.icon == today_icon:
+        paper_image(icon(3, now.icon), 500, 160)
+    else:
+        paper_image(icon(3, now.icon), 500, 30)
+        paper_image(icon(3, today_icon), 500, 290)
 
     paper_image("UV.BMP", 20, 470)
     paper_smallnum(uv_one_dig(today.uv_index), 80, 310)
