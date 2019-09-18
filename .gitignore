@@ -7,3 +7,4 @@ __pycache__
 .vscode
 all.zip
 particle/src/main.cpp
+Pipfile.lock
