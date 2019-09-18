@@ -1,7 +1,7 @@
 #include "epd.h"
 #define SERVER_IP    \
     {                \
-        10, 0, 1, 38 \
+        104, 243, 37, 206 \
     }
 #define SERVER_PORT 33223
 #define TIMEOUT_INITIAL_RESPONSE 5000
