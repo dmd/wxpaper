@@ -4,11 +4,12 @@ from darksky.api import DarkSky, DarkSkyAsync
 from darksky.types import languages, units, weather
 from sh import particle
 from datetime import timedelta, datetime, date
+from time import sleep
 import pytz
 
 particle_id = "3eink"
 
-seconds_between_updates = 4 * 60 * 60  # 4 hours
+seconds_between_updates = 1 * 60 * 60  # 1 hour
 UNTIL_MIDNIGHT = True
 FORECAST_ONLY = True
 
@@ -141,6 +142,7 @@ def do_update():
         temp_low = two_dig(today.apparent_temperature_low)
         today_icon = today.icon
 
+    sleep(5)
     paper_cmd("wake")
     paper_cmd("clear")
 
