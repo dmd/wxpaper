@@ -3,7 +3,6 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import sys
 import wxpaper
 
-
 class S(BaseHTTPRequestHandler):
     def _set_headers(self):
         self.send_response(200)
@@ -16,8 +15,9 @@ class S(BaseHTTPRequestHandler):
             print("got push request")
             try:
                 wxpaper.do_update()
-            except:
+            except Exception as ex:
                 print("something went wrong calling wxpaper")
+                print(ex)
                 pass
         else:
             print("got invalid request")
