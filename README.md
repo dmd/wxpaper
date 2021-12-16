@@ -4,7 +4,7 @@ It works, but *please* don't follow this as an example. Practically every decisi
 
 * The e-ink display I chose is awful. The API is basically "draw a pixel or a square or a circle" and that's it. You can also draw a bitmap *that's already stored on the device*, but you can't upload one over the wire. The built in fonts are awful, so I did all the text rendering by displaying saved bitmaps.
 
-* The Dark Sky API shuts down at the end of 2021; I'll have to rewrite it then
+* The Dark Sky API shuts down at the end of 2022; I'll have to rewrite it then
 
 * It's not standalone. The actual weather-fetching happens on a separate server; the display wakes up every hour, says "hey gimme weather", and then the server does a push back to the [Particle](https://www.particle.io/).
 
