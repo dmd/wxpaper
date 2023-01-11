@@ -6,6 +6,7 @@ from sh import particle
 from datetime import timedelta, datetime, date
 from time import sleep
 import pytz
+import requests
 
 particle_id = "3eink"
 
@@ -118,29 +119,24 @@ def paper_deepsleep(seconds):
 
 
 def do_update():
-    API_KEY = open("darksky-secret").readline().rstrip()
+    API_KEY = open("pirate-secret").readline().rstrip()
+    DarkSky.HOST = 'https://dev.pirateweather.net/forecast'
     darksky = DarkSky(API_KEY)
     lat, lon = 42.417821, -71.177747
 
     forecast = darksky.get_forecast(
         lat, lon, exclude=[weather.MINUTELY, weather.ALERTS]
     )
-    print("got forecast from darksky")
+    print("got forecast from pirateweather")
     now = forecast.currently
     today = forecast.daily.data[0]
     hourly = forecast.hourly.data
 
     temp_now = two_dig(now.apparent_temperature)
 
-    if UNTIL_MIDNIGHT:
-        rest_of_day = [x for x in hourly if x.time.day == datetime.now().day]
-        temp_hi = two_dig(max([x.apparent_temperature for x in rest_of_day]))
-        temp_low = two_dig(min([x.apparent_temperature for x in rest_of_day]))
-        today_icon = worst([x.icon for x in rest_of_day])
-    else:
-        temp_hi = two_dig(today.apparent_temperature_high)
-        temp_low = two_dig(today.apparent_temperature_low)
-        today_icon = today.icon
+    temp_hi = two_dig(today.apparent_temperature_high)
+    temp_low = two_dig(today.apparent_temperature_low)
+    today_icon = today.icon
 
     sleep(5)
     paper_cmd("wake")
@@ -155,14 +151,13 @@ def do_update():
     paper_smallnum(temp_low[0], 310, 175)
     paper_smallnum(temp_low[1], 390, 175)
 
-    if now.icon == today_icon or FORECAST_ONLY:
-        paper_image(icon(3, today_icon), 500, 160)
-    else:
-        paper_image(icon(3, now.icon), 500, 30)
-        paper_image(icon(3, today_icon), 500, 290)
+    paper_image(icon(3, today_icon), 500, 160)
 
     paper_image("UV.BMP", 20, 470)
     paper_smallnum(uv_one_dig(today.uv_index), 80, 310)
+
+    paper_fontsize(32)
+    paper_text("Balance: " + allowance(), 261, 530)
 
     paper_fontsize(32)
     paper_text(today.summary, 20, 570)
