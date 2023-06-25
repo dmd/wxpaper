@@ -10,9 +10,11 @@ import requests
 
 particle_id = "3eink"
 
-seconds_between_updates = 1 * 60 * 60  # 1 hour
-UNTIL_MIDNIGHT = True
-FORECAST_ONLY = True
+seconds_between_updates = 2 * 60 * 60  # 2 hours
+
+
+def allowance():
+    return requests.get('https://3e.org/private/allowance-capy-retrieve.py').text.strip()
 
 
 def clamp(n, minn, maxn):
@@ -132,10 +134,10 @@ def do_update():
     today = forecast.daily.data[0]
     hourly = forecast.hourly.data
 
-    temp_now = two_dig(now.apparent_temperature)
+    temp_now = two_dig(now.temperature)
 
-    temp_hi = two_dig(today.apparent_temperature_high)
-    temp_low = two_dig(today.apparent_temperature_low)
+    temp_hi = two_dig(today.temperature_high)
+    temp_low = two_dig(today.temperature_low)
     today_icon = today.icon
 
     sleep(5)
