@@ -10,6 +10,8 @@ It works, but *please* don't follow this as an example. Practically every decisi
 
 * The case is ugly. I 3D-printed it because I couldn't find any decent cases that would hold the display I chose.
 
+* **IMPORTANT** The version of darksky from Pip doesn't work with pirateweather - pirateweather changed the API. A working version is in darksky.zip.
+
 ![example image](photo.jpeg)
 
 ![example image](example.jpg)

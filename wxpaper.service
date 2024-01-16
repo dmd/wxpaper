@@ -10,7 +10,7 @@ RestartSec=1
 User=dmd
 Environment=PATH=/home/dmd/.local/bin:/home/dmd/bin:/usr/bin:/bin
 WorkingDirectory=/home/dmd/wxpaper
-ExecStart=/home/dmd/.local/bin/pipenv run python3 pushmeplease.py
+ExecStart=/home/dmd/venvs/wx/bin/python pushmeplease.py
 
 [Install]
 WantedBy=multi-user.target
