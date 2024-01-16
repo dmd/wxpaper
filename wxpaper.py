@@ -16,6 +16,11 @@ seconds_between_updates = 2 * 60 * 60  # 2 hours
 def allowance():
     return requests.get('https://3e.org/private/allowance-capy-retrieve.py').text.strip()
 
+def days_until_disney():
+    target_date = datetime(2024, 4, 5)
+    current_date = datetime.now()
+    difference = target_date - current_date
+    return f"{difference.days} days"
 
 def clamp(n, minn, maxn):
     return max(min(maxn, n), minn)
@@ -159,8 +164,7 @@ def do_update():
     paper_smallnum(uv_one_dig(today.uv_index), 80, 310)
 
     paper_fontsize(32)
-    paper_text("Balance: " + allowance(), 261, 530)
-
+    paper_text(allowance() + ", " + days_until_disney(), 261, 530)
     paper_fontsize(32)
     paper_text(today.summary, 20, 570)
 
