@@ -1,8 +1,4 @@
 #include "epd.h"
-#define SERVER_IP    \
-    {                \
-        104, 243, 37, 206 \
-    }
 #define SERVER_PORT 33223
 #define TIMEOUT_INITIAL_RESPONSE 5000
 #define TIMEOUT_RESPONSE_READ 5000
@@ -34,7 +30,8 @@ void setup(void)
     Time.zone(-4);
 
     TCPClient client;
-    byte ip[] = SERVER_IP;
+    IPAddress ip;
+    ip = WiFi.resolve("wxpaper.3e.org");
     client.connect(ip, SERVER_PORT);
     if (client.connected())
     {
@@ -64,6 +61,7 @@ int deepsleep(String seconds)
 {
     epd_enter_stopmode();
     System.sleep(SLEEP_MODE_DEEP, seconds.toInt());
+    return 0;
 }
 
 int fontsize(String x)
@@ -74,21 +72,25 @@ int fontsize(String x)
         epd_set_en_font(ASCII48);
     if (x == "64")
         epd_set_en_font(ASCII64);
+    return 0;
 }
 
 int wake(String x)
 {
     epd_wakeup();
+    return 0;
 }
 
 int clear(String x)
 {
     epd_clear();
+    return 0;
 }
 
 int stop(String x)
 {
     epd_enter_stopmode();
+    return 0;
 }
 
 int rect(String coords)
@@ -102,6 +104,7 @@ int rect(String coords)
     x1 = coords.substring(c2 + 1, c3).toInt();
     y1 = coords.substring(c3 + 1).toInt();
     epd_draw_rect(x0, y0, x1, y1);
+    return 0;
 }
 
 int img(String imginfo)
@@ -115,6 +118,7 @@ int img(String imginfo)
     x = imginfo.substring(c1 + 1, c2).toInt();
     y = imginfo.substring(c2 + 1).toInt();
     epd_disp_bitmap(img.c_str(), x, y);
+    return 0;
 }
 
 int text(String textinfo)
@@ -128,9 +132,11 @@ int text(String textinfo)
     x = textinfo.substring(c1 + 1, c2).toInt();
     y = textinfo.substring(c2 + 1).toInt();
     epd_disp_string(text, x, y);
+    return 0;
 }
 
 int update(String x)
 {
     epd_update();
+    return 0;
 }
