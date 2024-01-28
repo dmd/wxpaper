@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  wxpaper:
+    image: wxpaper
+    container_name: wxpaper
+    ports:
+      - "33223:33223"
+    restart: unless-stopped
