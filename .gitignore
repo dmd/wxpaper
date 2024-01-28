@@ -1,11 +1,6 @@
 pirate-secret
-darksky-secret
-.venv
 .ipynb_checkpoints
 .DS_Store
 __pycache__
 *.bin
 .vscode
-all.zip
-particle/src/main.cpp
-Pipfile.lock

@@ -1,0 +1,6 @@
+--- darksky-master/darksky/forecast.py   original
++++ darksky-master/darksky/forecast.py   modified
+@@ -148,0 +149 @@
++    elevation: int
+@@ -161,0 +163 @@
++        elevation: int=None

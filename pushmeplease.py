@@ -27,7 +27,7 @@ class S(BaseHTTPRequestHandler):
 def run(server_class=HTTPServer, handler_class=S, port=33223):
     server_address = ("", port)
     httpd = server_class(server_address, handler_class)
-    print("Starting httpd...")
+    print(f"Starting httpd listening on port {port}...")
     httpd.serve_forever()
 
 
