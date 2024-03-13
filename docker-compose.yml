@@ -7,3 +7,5 @@ services:
     ports:
       - "33223:33223"
     restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1

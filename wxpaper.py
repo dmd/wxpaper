@@ -10,7 +10,7 @@ import requests
 
 particle_id = "3eink"
 
-seconds_between_updates = 2 * 60 * 60  # 2 hours
+seconds_between_updates = 4 * 60 * 60  # 4 hours
 
 
 def allowance():
@@ -127,7 +127,7 @@ def paper_deepsleep(seconds):
 
 def do_update():
     API_KEY = open("pirate-secret").readline().rstrip()
-    DarkSky.HOST = 'https://dev.pirateweather.net/forecast'
+    DarkSky.HOST = 'https://api.pirateweather.net/forecast'
     darksky = DarkSky(API_KEY)
     lat, lon = 42.417821, -71.177747
 
