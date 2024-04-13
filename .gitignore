@@ -4,3 +4,4 @@ pirate-secret
 __pycache__
 *.bin
 .vscode
+particle-token
