@@ -11,9 +11,7 @@ It works, but *please* don't follow this as an example. Practically every decisi
 
 * The case is ugly. I 3D-printed it because I couldn't find any decent cases that would hold the display I chose.
 
-Build with: `docker build --build-arg PARTICLE_USERNAME='your-username' --build-arg PARTICLE_PASSWORD='your_password' -t wxpaper .`
-
-Build with: `docker build --build-arg PARTICLE_TOKEN=`your particle token` -t wxpaper .` You'll probably want to use an unexpiring token.
+Build with: `docker build --build-arg PARTICLE_TOKEN=your_particle_token -t wxpaper .` You'll probably want to use an unexpiring token.
 
 ![example image](photo.jpeg)
 
