@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   wxpaper:
     image: wxpaper
@@ -9,3 +7,4 @@ services:
     restart: unless-stopped
     environment:
       - PYTHONUNBUFFERED=1
+      - TZ=America/New_York
