@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>wxpaper</title>
+    <link rel="stylesheet" href="/web/styles.css" />
+  </head>
+  <body>
+    <main class="stage">
+      <section id="screen" class="screen" aria-label="Weather display">
+        <div class="paper-noise"></div>
+        <div id="layout" class="layout layout-hidden">
+          <div id="last-update" class="label label-left">Last update 00:00</div>
+          <div id="next-update" class="label label-right">Next update 00:00</div>
+
+          <div id="temp-now">
+            <img id="temp-now-d0" class="digit digit-big" alt="temp digit" />
+            <img id="temp-now-d1" class="digit digit-big" alt="temp digit" />
+          </div>
+
+          <div id="temp-high">
+            <img id="temp-high-d0" class="digit digit-small" alt="high digit" />
+            <img id="temp-high-d1" class="digit digit-small" alt="high digit" />
+          </div>
+
+          <div id="temp-low">
+            <img id="temp-low-d0" class="digit digit-small" alt="low digit" />
+            <img id="temp-low-d1" class="digit digit-small" alt="low digit" />
+          </div>
+
+          <img id="weather-icon" class="icon" alt="weather icon" />
+
+          <img id="uv-icon" class="uv-icon" src="/imgs/UV.BMP" alt="UV" />
+          <img id="uv-digit" class="digit digit-small uv-digit" alt="UV digit" />
+
+          <div id="date-box" class="date-box"></div>
+          <div id="weekday" class="date-text date-day">---</div>
+          <div id="date" class="date-text date-month">--- --</div>
+
+          <div id="allowance" class="label label-center">---</div>
+          <div id="summary" class="summary">---</div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/web/app.js"></script>
+  </body>
+</html>

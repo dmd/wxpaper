@@ -1,0 +1,148 @@
+:root {
+  color-scheme: only light;
+  --paper-width: 800px;
+  --paper-height: 480px;
+  --ink: #222;
+  --paper: #ffffff;
+  --paper-edge: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Times New Roman", "Times", serif;
+  background: #ffffff;
+  color: var(--ink);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.stage {
+  width: min(100vw, var(--paper-width));
+  height: min(100vh, var(--paper-height));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.screen {
+  position: relative;
+  width: var(--paper-width);
+  height: var(--paper-height);
+  background: #ffffff;
+  border: 2px solid #d9d9d6;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  transform-origin: top left;
+}
+
+.layout {
+  position: absolute;
+  width: 800px;
+  height: 600px;
+  left: 50%;
+  top: 0;
+  transform: scale(0.78) translateX(-50%);
+  transform-origin: top left;
+}
+
+.layout-hidden {
+  visibility: hidden;
+}
+
+.paper-noise {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.02),
+      rgba(0, 0, 0, 0.02) 1px,
+      rgba(255, 255, 255, 0.02) 2px,
+      rgba(255, 255, 255, 0.02) 3px
+    );
+  opacity: 0;
+  pointer-events: none;
+}
+
+.label {
+  position: absolute;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.label-right {
+  text-align: right;
+}
+
+.label-center {
+  position: absolute;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.summary {
+  position: absolute;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.digit {
+  position: absolute;
+  image-rendering: pixelated;
+  filter: grayscale(100%);
+}
+
+.digit-big {
+  width: 140px;
+  height: 300px;
+}
+
+.digit-small {
+  width: 80px;
+  height: 165px;
+}
+
+.icon {
+  position: absolute;
+  width: 256px;
+  height: 256px;
+  image-rendering: pixelated;
+  filter: grayscale(100%);
+}
+
+.uv-icon {
+  position: absolute;
+  width: 200px;
+  height: 90px;
+  image-rendering: pixelated;
+  filter: grayscale(100%);
+}
+
+.date-box {
+  position: absolute;
+  border: 2px solid var(--ink);
+}
+
+.date-text {
+  position: absolute;
+  text-align: left;
+  width: auto;
+  font-weight: 500;
+}
+
+.date-day {
+  font-size: 58px;
+}
+
+.date-month {
+  font-size: 48px;
+}
