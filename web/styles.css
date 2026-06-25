@@ -89,7 +89,7 @@ body {
 
 .condition-icon {
   grid-column: 3;
-  grid-row: 1 / span 2;
+  grid-row: 1;
   justify-self: center;
   align-self: center;
   width: 75%;

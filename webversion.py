@@ -101,7 +101,7 @@ def round_dollars(text: str) -> str:
 
 def build_allowance(today: date) -> str:
     countdown = event_countdown(
-        today, os.getenv("WX_EVENT_DATE"), os.getenv("WX_EVENT_LABEL")
+        today, os.getenv("EVENT_DATE"), os.getenv("EVENT_LABEL")
     )
     return compose_allowance(round_dollars(allowance()), countdown)
 
