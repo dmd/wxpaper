@@ -50,21 +50,21 @@ body {
 
 .temps {
   display: flex;
+  align-items: flex-start;
+  gap: clamp(0.1rem, 0.8vw, 0.4rem);
+}
+
+.current {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: clamp(0.5rem, 3vw, 2rem);
+  gap: 0.15rem;
 }
 
 .temp-now {
-  display: flex;
-  align-items: flex-start;
   font-size: var(--temp-now-size);
   font-weight: 800;
   line-height: 0.85;
-}
-
-.temp-now .deg {
-  font-size: 0.4em;
-  font-weight: 700;
 }
 
 .temp-range {
@@ -76,22 +76,13 @@ body {
   line-height: 1;
 }
 
-.temp-range .deg {
-  font-size: 0.45em;
-}
-
-.temp-high,
-.temp-low {
-  display: flex;
-  align-items: flex-start;
-}
-
 .temp-low {
   color: var(--muted);
 }
 
 .condition-icon {
   margin-left: auto;
+  align-self: center;
   width: var(--icon-size);
   height: var(--icon-size);
   object-fit: contain;
@@ -99,7 +90,7 @@ body {
 
 .meta {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   font-size: clamp(1rem, 4vw, 2rem);
   font-weight: 600;
@@ -108,7 +99,9 @@ body {
 .uv {
   display: flex;
   align-items: center;
-  gap: 0.4em;
+  gap: 0.15em;
+  font-size: clamp(1rem, 4vw, 2rem);
+  font-weight: 600;
 }
 
 .uv-icon {
