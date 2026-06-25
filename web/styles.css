@@ -49,25 +49,25 @@ body {
 }
 
 .temps {
-  display: flex;
-  align-items: flex-start;
-  gap: clamp(0.1rem, 0.8vw, 0.4rem);
-}
-
-.current {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  column-gap: clamp(0.1rem, 0.8vw, 0.4rem);
+  row-gap: 0.15rem;
   align-items: center;
-  gap: 0.15rem;
 }
 
 .temp-now {
+  grid-column: 1;
+  grid-row: 1;
   font-size: var(--temp-now-size);
   font-weight: 800;
   line-height: 0.85;
 }
 
 .temp-range {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
   display: flex;
   flex-direction: column;
   gap: 0.1em;
@@ -80,8 +80,21 @@ body {
   color: var(--muted);
 }
 
+.uv {
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  gap: 0.15em;
+  font-size: clamp(2rem, 8vw, 4rem);
+  font-weight: 600;
+}
+
 .condition-icon {
-  margin-left: auto;
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
   align-self: center;
   width: var(--icon-size);
   height: var(--icon-size);
@@ -92,14 +105,6 @@ body {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  font-size: clamp(1rem, 4vw, 2rem);
-  font-weight: 600;
-}
-
-.uv {
-  display: flex;
-  align-items: center;
-  gap: 0.15em;
   font-size: clamp(1rem, 4vw, 2rem);
   font-weight: 600;
 }
