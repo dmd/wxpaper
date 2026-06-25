@@ -1,148 +1,151 @@
 :root {
   color-scheme: only light;
-  --paper-width: 800px;
-  --paper-height: 480px;
-  --ink: #222;
-  --paper: #ffffff;
-  --paper-edge: #ffffff;
+  --ink: #111;
+  --paper: #fff;
+  --muted: #555;
+  --rule: #ddd;
+  --temp-now-size: clamp(6rem, 26vw, 16rem);
+  --temp-range-size: clamp(3rem, 13vw, 8rem);
+  --icon-size: clamp(4rem, 16vw, 9rem);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
 }
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
-  margin: 0;
-  font-family: "Times New Roman", "Times", serif;
-  background: #ffffff;
+  background: var(--paper);
   color: var(--ink);
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  padding: clamp(0.75rem, 3vw, 2rem);
 }
 
-.stage {
-  width: min(100vw, var(--paper-width));
-  height: min(100vh, var(--paper-height));
+.panel {
+  width: min(100%, 60rem);
+  border: 1px solid var(--rule);
+  border-radius: 0.5rem;
+  padding: clamp(1rem, 4vw, 2.5rem);
+  display: grid;
+  gap: clamp(0.75rem, 3vw, 1.75rem);
+}
+
+.updates {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  font-size: clamp(0.75rem, 2.2vw, 1rem);
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.temps {
+  display: flex;
   align-items: center;
+  gap: clamp(0.5rem, 3vw, 2rem);
 }
 
-.screen {
-  position: relative;
-  width: var(--paper-width);
-  height: var(--paper-height);
-  background: #ffffff;
-  border: 2px solid #d9d9d6;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
-  transform-origin: top left;
+.temp-now {
+  display: flex;
+  align-items: flex-start;
+  font-size: var(--temp-now-size);
+  font-weight: 800;
+  line-height: 0.85;
 }
 
-.layout {
-  position: absolute;
-  width: 800px;
-  height: 600px;
-  left: 50%;
-  top: 0;
-  transform: scale(0.78) translateX(-50%);
-  transform-origin: top left;
+.temp-now .deg {
+  font-size: 0.4em;
+  font-weight: 700;
 }
 
-.layout-hidden {
-  visibility: hidden;
-}
-
-.paper-noise {
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-      0deg,
-      rgba(0, 0, 0, 0.02),
-      rgba(0, 0, 0, 0.02) 1px,
-      rgba(255, 255, 255, 0.02) 2px,
-      rgba(255, 255, 255, 0.02) 3px
-    );
-  opacity: 0;
-  pointer-events: none;
-}
-
-.label {
-  position: absolute;
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
+.temp-range {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
+  font-size: var(--temp-range-size);
+  font-weight: 700;
   line-height: 1;
 }
 
-.label-right {
-  text-align: right;
+.temp-range .deg {
+  font-size: 0.45em;
 }
 
-.label-center {
-  position: absolute;
-  font-size: 30px;
-  font-weight: 500;
-  line-height: 1;
+.temp-high,
+.temp-low {
+  display: flex;
+  align-items: flex-start;
 }
 
-.summary {
-  position: absolute;
-  font-size: 30px;
-  font-weight: 500;
-  line-height: 1;
+.temp-low {
+  color: var(--muted);
 }
 
-.digit {
-  position: absolute;
-  image-rendering: pixelated;
-  filter: grayscale(100%);
+.condition-icon {
+  margin-left: auto;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  object-fit: contain;
 }
 
-.digit-big {
-  width: 140px;
-  height: 300px;
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: clamp(1rem, 4vw, 2rem);
+  font-weight: 600;
 }
 
-.digit-small {
-  width: 80px;
-  height: 165px;
-}
-
-.icon {
-  position: absolute;
-  width: 256px;
-  height: 256px;
-  image-rendering: pixelated;
-  filter: grayscale(100%);
+.uv {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
 }
 
 .uv-icon {
-  position: absolute;
-  width: 200px;
-  height: 90px;
-  image-rendering: pixelated;
-  filter: grayscale(100%);
-}
-
-.date-box {
-  position: absolute;
-  border: 2px solid var(--ink);
-}
-
-.date-text {
-  position: absolute;
-  text-align: left;
+  height: 1em;
   width: auto;
-  font-weight: 500;
 }
 
-.date-day {
-  font-size: 58px;
+.date {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4em;
 }
 
-.date-month {
-  font-size: 48px;
+.date-sep {
+  color: var(--muted);
+}
+
+.info {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.summary {
+  font-size: clamp(0.95rem, 3vw, 1.4rem);
+}
+
+.allowance {
+  font-size: clamp(0.85rem, 2.5vw, 1.2rem);
+  color: var(--muted);
+}
+
+.panel[data-state="loading"] {
+  opacity: 0;
+}
+
+.panel[data-state="ready"],
+.panel[data-state="offline"] {
+  opacity: 1;
+  transition: opacity 0.2s ease;
 }

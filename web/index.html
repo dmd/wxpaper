@@ -7,43 +7,31 @@
     <link rel="stylesheet" href="/web/styles.css" />
   </head>
   <body>
-    <main class="stage">
-      <section id="screen" class="screen" aria-label="Weather display">
-        <div class="paper-noise"></div>
-        <div id="layout" class="layout layout-hidden">
-          <div id="last-update" class="label label-left">Last update 00:00</div>
-          <div id="next-update" class="label label-right">Next update 00:00</div>
+    <main class="panel" id="panel" data-state="loading">
+      <header class="updates">
+        <span id="last-update">Last update --:--</span>
+        <span id="next-update">Next update --:--</span>
+      </header>
 
-          <div id="temp-now">
-            <img id="temp-now-d0" class="digit digit-big" alt="temp digit" />
-            <img id="temp-now-d1" class="digit digit-big" alt="temp digit" />
-          </div>
-
-          <div id="temp-high">
-            <img id="temp-high-d0" class="digit digit-small" alt="high digit" />
-            <img id="temp-high-d1" class="digit digit-small" alt="high digit" />
-          </div>
-
-          <div id="temp-low">
-            <img id="temp-low-d0" class="digit digit-small" alt="low digit" />
-            <img id="temp-low-d1" class="digit digit-small" alt="low digit" />
-          </div>
-
-          <img id="weather-icon" class="icon" alt="weather icon" />
-
-          <img id="uv-icon" class="uv-icon" src="/imgs/UV.BMP" alt="UV" />
-          <img id="uv-digit" class="digit digit-small uv-digit" alt="UV digit" />
-
-          <div id="date-box" class="date-box"></div>
-          <div id="weekday" class="date-text date-day">---</div>
-          <div id="date" class="date-text date-month">--- --</div>
-
-          <div id="allowance" class="label label-center">---</div>
-          <div id="summary" class="summary">---</div>
+      <section class="temps">
+        <div class="temp-now"><span id="temp-now">--</span><span class="deg">&deg;</span></div>
+        <div class="temp-range">
+          <div class="temp-high"><span id="temp-high">--</span><span class="deg">&deg;</span></div>
+          <div class="temp-low"><span id="temp-low">--</span><span class="deg">&deg;</span></div>
         </div>
+        <img class="condition-icon" id="condition-icon" alt="" />
       </section>
-    </main>
 
+      <section class="meta">
+        <div class="uv"><img class="uv-icon" src="/imgs/uv.png" alt="UV index" /><span id="uv">--</span></div>
+        <div class="date"><span id="weekday">---</span><span class="date-sep">&middot;</span><span id="date">--- --</span></div>
+      </section>
+
+      <footer class="info">
+        <p class="summary" id="summary">&mdash;</p>
+        <p class="allowance" id="allowance">&mdash;</p>
+      </footer>
+    </main>
     <script src="/web/app.js"></script>
   </body>
 </html>
