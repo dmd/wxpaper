@@ -4,7 +4,8 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.request import urlopen
 from urllib.error import URLError
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
+from typing import Optional
 import json
 import os
 
@@ -52,8 +53,7 @@ def fetch_forecast() -> dict:
 
     now = datetime.now()
     next_update = now + timedelta(seconds=SECONDS_BETWEEN_UPDATES)
-    allowance_text = allowance()
-    days_until = days_until_special_event(now)
+    allowance_value = build_allowance(now.date())
 
     return {
         "tempNow": currently.get("temperature", 0),
@@ -66,13 +66,37 @@ def fetch_forecast() -> dict:
         "nextUpdate": next_update.strftime("%H:%M"),
         "weekday": now.strftime("%a"),
         "date": now.strftime("%b %-d"),
-        "allowance": f"{allowance_text}, {days_until} days",
+        "allowance": allowance_value,
     }
 
 
-def days_until_special_event(now: datetime) -> int:
-    target_date = datetime(2024, 6, 20)
-    return (target_date - now).days
+def event_countdown(today: date, event_date_str: Optional[str], label: Optional[str]) -> Optional[str]:
+    if not event_date_str:
+        return None
+    try:
+        event_date = date.fromisoformat(event_date_str)
+    except ValueError:
+        return None
+    days = (event_date - today).days
+    if days < 0:
+        return None
+    base = f"{days} days"
+    if label:
+        return f"{base} until {label}"
+    return base
+
+
+def compose_allowance(allowance_text: str, countdown: Optional[str]) -> str:
+    if countdown:
+        return f"{allowance_text}, {countdown}"
+    return allowance_text
+
+
+def build_allowance(today: date) -> str:
+    countdown = event_countdown(
+        today, os.getenv("WX_EVENT_DATE"), os.getenv("WX_EVENT_LABEL")
+    )
+    return compose_allowance(allowance(), countdown)
 
 
 def allowance() -> str:
@@ -89,8 +113,7 @@ def allowance() -> str:
 def fallback_data(reason: str) -> dict:
     now = datetime.now()
     next_update = now + timedelta(seconds=SECONDS_BETWEEN_UPDATES)
-    allowance_text = allowance()
-    days_until = days_until_special_event(now)
+    allowance_value = build_allowance(now.date())
     return {
         "tempNow": 0,
         "tempHigh": 0,
@@ -102,7 +125,7 @@ def fallback_data(reason: str) -> dict:
         "nextUpdate": next_update.strftime("%H:%M"),
         "weekday": now.strftime("%a"),
         "date": now.strftime("%b %-d"),
-        "allowance": f"{allowance_text}, {days_until} days",
+        "allowance": allowance_value,
     }
 
 
