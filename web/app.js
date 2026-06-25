@@ -8,11 +8,11 @@ const ICONS = {
   thunderstorm: "storm.png",
   wind: "windmill.png",
   cloudy: "clouds.png",
-  "partly-cloudy-day": "cloud.png",
-  "partly-cloudy-night": "cloud.png",
-  fog: "cloud.png",
+  "partly-cloudy-day": "partly-cloudy-day.png",
+  "partly-cloudy-night": "partly-cloudy-night.png",
+  fog: "fog.png",
 };
-const DEFAULT_ICON = "cloud.png";
+const DEFAULT_ICON = "clouds.png";
 
 const OFFLINE_DATA = {
   tempNow: 0,
