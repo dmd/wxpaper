@@ -77,4 +77,12 @@ async function load() {
   }
 }
 
+function fitStage() {
+  const panel = document.getElementById("panel");
+  const scale = Math.min(window.innerWidth / 800, window.innerHeight / 480, 1);
+  panel.style.transform = `scale(${scale})`;
+}
+
 load();
+fitStage();
+window.addEventListener("resize", fitStage);

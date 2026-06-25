@@ -4,8 +4,8 @@
   --paper: #fff;
   --muted: #555;
   --rule: #ddd;
-  --temp-now-size: clamp(6rem, 26vw, 16rem);
-  --temp-range-size: clamp(3rem, 13vw, 8rem);
+  --temp-now-size: 160px;
+  --temp-range-size: 80px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
 }
@@ -27,22 +27,28 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: clamp(0.75rem, 3vw, 2rem);
+  overflow: hidden;
 }
 
+/* Fixed e-ink panel: exactly 800x480, scaled to fit the window by app.js. */
 .panel {
-  width: min(100%, 60rem);
+  flex: none;
+  width: 800px;
+  height: 480px;
+  padding: 18px 30px;
   border: 1px solid var(--rule);
-  border-radius: 0.5rem;
-  padding: clamp(1rem, 4vw, 2.5rem);
   display: grid;
-  gap: clamp(0.75rem, 3vw, 1.75rem);
+  grid-template-rows: auto auto auto auto;
+  align-content: space-between;
+  row-gap: 6px;
+  transform-origin: center center;
+  overflow: hidden;
 }
 
 .updates {
   display: flex;
   justify-content: space-between;
-  font-size: clamp(0.75rem, 2.2vw, 1rem);
+  font-size: 16px;
   color: var(--muted);
   letter-spacing: 0.02em;
 }
@@ -50,8 +56,8 @@ body {
 .temps {
   display: grid;
   grid-template-columns: auto auto 1fr;
-  column-gap: clamp(0.1rem, 0.8vw, 0.4rem);
-  row-gap: 0.15rem;
+  column-gap: 12px;
+  row-gap: 2px;
   align-items: center;
 }
 
@@ -79,29 +85,11 @@ body {
   grid-column: 1;
   grid-row: 2;
   justify-self: center;
-  margin-top: -0.6rem;
+  margin-top: -0.4rem;
   display: flex;
   align-items: center;
   gap: 0.15em;
-  font-size: clamp(2rem, 8vw, 4rem);
-  font-weight: 600;
-}
-
-.condition-icon {
-  grid-column: 3;
-  grid-row: 1;
-  justify-self: center;
-  align-self: center;
-  width: 75%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.meta {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: clamp(1rem, 4vw, 2rem);
+  font-size: 44px;
   font-weight: 600;
 }
 
@@ -110,28 +98,46 @@ body {
   width: auto;
 }
 
+.condition-icon {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: center;
+  align-self: center;
+  max-width: 80%;
+  max-height: 170px;
+  object-fit: contain;
+}
+
+.meta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  font-weight: 600;
+}
+
 .date {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.05em;
   border: 2px solid var(--ink);
-  border-radius: 0.25rem;
-  padding: 0.3em 0.8em;
+  border-radius: 4px;
+  padding: 4px 16px;
   line-height: 1.15;
 }
 
 .info {
   display: grid;
-  gap: 0.35rem;
+  gap: 2px;
 }
 
 .summary {
-  font-size: clamp(0.95rem, 3vw, 1.4rem);
+  font-size: 22px;
 }
 
 .allowance {
-  font-size: clamp(0.85rem, 2.5vw, 1.2rem);
+  font-size: 18px;
   color: var(--muted);
 }
 
