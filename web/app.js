@@ -60,14 +60,14 @@ function render(data) {
   setText("next-update", `Next update ${data.nextUpdate}`);
 
   const icon = document.getElementById("condition-icon");
-  icon.src = `/imgs/${iconFor(data.condition)}`;
+  icon.src = `imgs/${iconFor(data.condition)}`;
   icon.alt = data.condition || "";
 }
 
 async function load() {
   const panel = document.getElementById("panel");
   try {
-    const res = await fetch("/api/forecast");
+    const res = await fetch("forecast.py");
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     render(await res.json());
     panel.dataset.state = "ready";
