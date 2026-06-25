@@ -8,6 +8,7 @@ from datetime import date, datetime, timedelta
 from typing import Optional
 import json
 import os
+import re
 
 ROOT = Path(__file__).resolve().parent
 SECONDS_BETWEEN_UPDATES = 4 * 60 * 60
@@ -92,11 +93,17 @@ def compose_allowance(allowance_text: str, countdown: Optional[str]) -> str:
     return allowance_text
 
 
+def round_dollars(text: str) -> str:
+    return re.sub(
+        r"\$(\d+(?:\.\d+)?)", lambda m: f"${round(float(m.group(1)))}", text
+    )
+
+
 def build_allowance(today: date) -> str:
     countdown = event_countdown(
         today, os.getenv("WX_EVENT_DATE"), os.getenv("WX_EVENT_LABEL")
     )
-    return compose_allowance(allowance(), countdown)
+    return compose_allowance(round_dollars(allowance()), countdown)
 
 
 def allowance() -> str:

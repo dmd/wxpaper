@@ -112,12 +112,13 @@ body {
 
 .date {
   display: flex;
-  align-items: baseline;
-  gap: 0.4em;
-}
-
-.date-sep {
-  color: var(--muted);
+  flex-direction: column;
+  align-items: center;
+  gap: 0.05em;
+  border: 2px solid var(--ink);
+  border-radius: 0.25rem;
+  padding: 0.3em 0.8em;
+  line-height: 1.15;
 }
 
 .info {

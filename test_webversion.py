@@ -49,5 +49,22 @@ class ComposeAllowanceTests(unittest.TestCase):
         self.assertEqual(webversion.compose_allowance("$469.93", None), "$469.93")
 
 
+class RoundDollarsTests(unittest.TestCase):
+    def test_rounds_up(self):
+        self.assertEqual(webversion.round_dollars("$469.93"), "$470")
+
+    def test_rounds_down(self):
+        self.assertEqual(webversion.round_dollars("$469.20"), "$469")
+
+    def test_integer_unchanged(self):
+        self.assertEqual(webversion.round_dollars("$470"), "$470")
+
+    def test_non_dollar_text_unchanged(self):
+        self.assertEqual(
+            webversion.round_dollars("Allowance unavailable"),
+            "Allowance unavailable",
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
