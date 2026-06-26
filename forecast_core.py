@@ -7,15 +7,21 @@ Standard library only, so it runs unchanged under DreamHost's system python.
 from pathlib import Path
 from urllib.request import urlopen
 from urllib.error import URLError
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 from typing import Optional
+from zoneinfo import ZoneInfo
 import json
 import os
 import re
 
 ROOT = Path(__file__).resolve().parent
-SECONDS_BETWEEN_UPDATES = 4 * 60 * 60
 ALLOWANCE_URL = "https://3e.org/private/allowance-capy-retrieve.py"
+TZ = ZoneInfo("America/New_York")
+
+
+def format_time(when: datetime) -> str:
+    """12-hour am/pm time, e.g. '3:05 pm', with no leading zero on the hour."""
+    return when.strftime("%I:%M %p").lstrip("0").lower()
 
 
 def fetch_forecast() -> dict:
@@ -42,8 +48,7 @@ def fetch_forecast() -> dict:
     daily = payload.get("daily", {}).get("data", [{}])
     today = daily[0] if daily else {}
 
-    now = datetime.now()
-    next_update = now + timedelta(seconds=SECONDS_BETWEEN_UPDATES)
+    now = datetime.now(TZ)
     allowance_value = build_allowance(now.date())
 
     return {
@@ -53,8 +58,7 @@ def fetch_forecast() -> dict:
         "uv": today.get("uvIndex", 0),
         "condition": today.get("icon", "cloudy"),
         "summary": today.get("summary", ""),
-        "lastUpdate": now.strftime("%H:%M"),
-        "nextUpdate": next_update.strftime("%H:%M"),
+        "lastUpdate": format_time(now),
         "weekday": now.strftime("%a"),
         "date": now.strftime("%b %-d"),
         "allowance": allowance_value,
@@ -136,8 +140,7 @@ def allowance() -> str:
 
 
 def fallback_data(reason: str) -> dict:
-    now = datetime.now()
-    next_update = now + timedelta(seconds=SECONDS_BETWEEN_UPDATES)
+    now = datetime.now(TZ)
     allowance_value = build_allowance(now.date())
     return {
         "tempNow": 0,
@@ -146,8 +149,7 @@ def fallback_data(reason: str) -> dict:
         "uv": 0,
         "condition": "partly-cloudy-day",
         "summary": reason,
-        "lastUpdate": now.strftime("%H:%M"),
-        "nextUpdate": next_update.strftime("%H:%M"),
+        "lastUpdate": format_time(now),
         "weekday": now.strftime("%a"),
         "date": now.strftime("%b %-d"),
         "allowance": allowance_value,

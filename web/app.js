@@ -25,7 +25,6 @@ const OFFLINE_DATA = {
   weekday: "---",
   date: "--- --",
   lastUpdate: "--:--",
-  nextUpdate: "--:--",
 };
 
 function formatTemp(value) {
@@ -57,7 +56,6 @@ function render(data) {
   setText("summary", data.summary);
   setText("allowance", data.allowance);
   setText("last-update", `Last update ${data.lastUpdate}`);
-  setText("next-update", `Next update ${data.nextUpdate}`);
 
   const icon = document.getElementById("condition-icon");
   icon.src = `imgs/${iconFor(data.condition)}`;
