@@ -90,10 +90,38 @@ def round_dollars(text: str) -> str:
 
 
 def build_allowance(today: date) -> str:
-    countdown = event_countdown(
-        today, os.getenv("EVENT_DATE"), os.getenv("EVENT_LABEL")
-    )
+    event_date, event_label = event_config()
+    countdown = event_countdown(today, event_date, event_label)
     return compose_allowance(round_dollars(allowance()), countdown)
+
+
+def event_config() -> "tuple[Optional[str], Optional[str]]":
+    """Return (EVENT_DATE, EVENT_LABEL).
+
+    Environment wins (local dev, docker). On the CGI deployment Apache's SetEnv
+    does not reach CGI scripts, so we fall back to a ``wxpaper-event`` file of
+    ``KEY=VALUE`` lines (checked in the home dir, then beside this module).
+    """
+    date_str = os.getenv("EVENT_DATE")
+    label = os.getenv("EVENT_LABEL")
+    if date_str:
+        return date_str, label
+
+    for candidate in (Path.home() / "wxpaper-event", ROOT / "wxpaper-event"):
+        if not candidate.exists():
+            continue
+        try:
+            values = {}
+            for line in candidate.read_text().splitlines():
+                line = line.strip()
+                if not line or line.startswith("#") or "=" not in line:
+                    continue
+                key, _, value = line.partition("=")
+                values[key.strip()] = value.strip()
+            return values.get("EVENT_DATE"), values.get("EVENT_LABEL")
+        except OSError:
+            pass
+    return None, None
 
 
 def allowance() -> str:
