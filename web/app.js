@@ -14,6 +14,12 @@ const ICONS = {
 };
 const DEFAULT_ICON = "clouds.png";
 
+// trmnl renders the page from a blank base, so relative asset/fetch URLs can't
+// be resolved there. Use absolute URLs against the deployment, except when
+// previewing through the local dev server (webversion.py).
+const IS_LOCAL = ["localhost", "127.0.0.1"].includes(location.hostname);
+const BASE = IS_LOCAL ? "" : "https://3e.org/wxpaper/";
+
 const OFFLINE_DATA = {
   tempNow: 0,
   tempHigh: 0,
@@ -58,14 +64,14 @@ function render(data) {
   setText("last-update", `Last update ${data.lastUpdate}`);
 
   const icon = document.getElementById("condition-icon");
-  icon.src = `imgs/${iconFor(data.condition)}`;
+  icon.src = `${BASE}imgs/${iconFor(data.condition)}`;
   icon.alt = data.condition || "";
 }
 
 async function load() {
   const panel = document.getElementById("panel");
   try {
-    const res = await fetch("forecast.py");
+    const res = await fetch(`${BASE}forecast.py`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     render(await res.json());
     panel.dataset.state = "ready";
@@ -81,6 +87,7 @@ function fitStage() {
   panel.style.transform = `scale(${scale})`;
 }
 
+document.getElementById("uv-icon").src = `${BASE}imgs/uv.png`;
 load();
 fitStage();
 window.addEventListener("resize", fitStage);

@@ -15,5 +15,7 @@ import forecast_core  # noqa: E402
 
 body = json.dumps(forecast_core.fetch_forecast())
 print("Content-Type: application/json")
+# trmnl fetches this from a null-origin (blank base) context, so allow CORS.
+print("Access-Control-Allow-Origin: *")
 print()
 print(body)
