@@ -1,0 +1,2 @@
+# Serve the server-rendered CGI for /wxpaper/ (single self-contained page).
+DirectoryIndex index.py
