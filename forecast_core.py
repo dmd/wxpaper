@@ -132,11 +132,46 @@ def allowance() -> str:
     override = os.getenv("WX_ALLOWANCE")
     if override:
         return override
+
+    today = datetime.now(TZ).date().isoformat()
+    cached_date, cached_value = _read_allowance_cache()
+    if cached_value is not None and cached_date == today:
+        return cached_value
+
     try:
         with urlopen(ALLOWANCE_URL, timeout=5) as response:
-            return response.read().decode("utf-8").strip()
+            value = response.read().decode("utf-8").strip()
     except URLError:
-        return "Allowance unavailable"
+        # Network failed: keep showing the last known value if we have one.
+        return cached_value if cached_value is not None else "Allowance unavailable"
+
+    _write_allowance_cache(today, value)
+    return value
+
+
+def _allowance_cache_path() -> Path:
+    override = os.getenv("WX_ALLOWANCE_CACHE")
+    if override:
+        return Path(override)
+    return Path.home() / ".wxpaper-allowance-cache"
+
+
+def _read_allowance_cache() -> "tuple[Optional[str], Optional[str]]":
+    try:
+        obj = json.loads(_allowance_cache_path().read_text())
+        return obj.get("date"), obj.get("allowance")
+    except (OSError, ValueError):
+        return None, None
+
+
+def _write_allowance_cache(today: str, value: str) -> None:
+    path = _allowance_cache_path()
+    tmp = path.with_name(path.name + ".tmp")
+    try:
+        tmp.write_text(json.dumps({"date": today, "allowance": value}))
+        tmp.replace(path)  # atomic on POSIX
+    except OSError:
+        pass
 
 
 def fallback_data(reason: str) -> dict:
