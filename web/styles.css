@@ -55,7 +55,7 @@ body {
 
 .temps {
   display: grid;
-  grid-template-columns: auto auto 1fr;
+  grid-template-columns: auto auto 1fr auto;
   column-gap: 12px;
   row-gap: 2px;
   align-items: center;
@@ -100,7 +100,7 @@ body {
 
 .condition-icon {
   grid-column: 3;
-  grid-row: 1;
+  grid-row: 1 / span 2;
   justify-self: center;
   align-self: center;
   max-width: 80%;
@@ -109,8 +109,8 @@ body {
 }
 
 .date {
-  grid-column: 3;
-  grid-row: 2;
+  grid-column: 4;
+  grid-row: 1 / span 2;
   justify-self: center;
   align-self: center;
   display: flex;
