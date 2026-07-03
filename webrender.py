@@ -92,9 +92,6 @@ def render_page(data: dict, asset_dir) -> str:
         </div>
         <div class="uv"><img class="uv-icon" src="{uv_uri}" alt="UV index" /><span>{format_uv(data.get("uv"))}</span></div>
         <img class="condition-icon" src="{icon_uri}" alt="{text("condition")}" />
-      </section>
-
-      <section class="meta">
         <div class="date"><span>{text("weekday")}</span><span>{text("date")}</span></div>
       </section>
 

@@ -85,11 +85,11 @@ body {
   grid-column: 1;
   grid-row: 2;
   justify-self: center;
-  margin-top: -0.4rem;
+  margin-top: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.15em;
-  font-size: 44px;
+  font-size: 88px;
   font-weight: 600;
 }
 
@@ -108,23 +108,21 @@ body {
   object-fit: contain;
 }
 
-.meta {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 28px;
-  font-weight: 600;
-}
-
 .date {
+  grid-column: 3;
+  grid-row: 2;
+  justify-self: center;
+  align-self: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.05em;
-  border: 2px solid var(--ink);
-  border-radius: 4px;
-  padding: 4px 16px;
+  border: 3px solid var(--ink);
+  border-radius: 6px;
+  padding: 6px 24px;
   line-height: 1.15;
+  font-size: 42px;
+  font-weight: 600;
 }
 
 .info {
