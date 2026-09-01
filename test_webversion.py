@@ -5,9 +5,11 @@ import unittest
 from contextlib import contextmanager
 from datetime import date, datetime
 from io import BytesIO
+from pathlib import Path
 from unittest import mock
 
 import forecast_core
+import webrender
 import webversion
 
 
@@ -73,6 +75,37 @@ class RoundDollarsTests(unittest.TestCase):
         )
 
 
+class LetterDayTests(unittest.TestCase):
+    def test_returns_letterday_from_json(self):
+        response = _FakeResponse('{"letterday":"A"}')
+        with mock.patch.object(forecast_core, "urlopen", return_value=response):
+            self.assertEqual(forecast_core.letter_day(), "A")
+
+    def test_preserves_vacation_day_space(self):
+        response = _FakeResponse('{"letterday":" "}')
+        with mock.patch.object(forecast_core, "urlopen", return_value=response):
+            self.assertEqual(forecast_core.letter_day(), " ")
+
+    def test_network_failure_returns_blank(self):
+        with mock.patch.object(
+            forecast_core, "urlopen", side_effect=forecast_core.URLError("down")
+        ):
+            self.assertEqual(forecast_core.letter_day(), "")
+
+    def test_renderer_adds_letter_day_as_third_date_line(self):
+        data = {
+            "weekday": "Tue",
+            "date": "Sep 1",
+            "letterDay": "A",
+        }
+        asset_dir = Path(__file__).resolve().parent / "web"
+        page = webrender.render_page(data, asset_dir)
+        self.assertIn(
+            '<div class="date"><span>Tue</span><span>Sep 1</span><span>A</span></div>',
+            page,
+        )
+
+
 class AllowanceCacheTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.NamedTemporaryFile(delete=False)
@@ -134,6 +167,17 @@ class AllowanceCacheTests(unittest.TestCase):
 
         with mock.patch.object(forecast_core, "urlopen", side_effect=boom):
             self.assertEqual(forecast_core.allowance(), "Allowance unavailable")
+
+    def test_runtime_directory_holds_default_cache(self):
+        with mock.patch.dict(
+            os.environ,
+            {"WX_ALLOWANCE_CACHE": "", "WX_RUNTIME_DIR": self.tmp.name},
+            clear=False,
+        ):
+            self.assertEqual(
+                forecast_core._allowance_cache_path(),
+                Path(self.tmp.name) / ".allowance-cache",
+            )
 
 
 class _FakeResponse:

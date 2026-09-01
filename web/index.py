@@ -6,15 +6,16 @@ returns a complete, data-filled page in one request -- no client-side fetch,
 nothing hidden until JS runs. That makes it safe for trmnl, which screenshots
 the page after a fixed wait.
 
-The shared logic lives in the home directory (above the web root, never
-served): forecast_core.py (data) and webrender.py (HTML), alongside
-pirate-secret and wxpaper-event.
+The shared logic and private runtime files live in ~/wxpaper, outside the web
+root.
 """
 import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.environ.get("HOME", "/home/edges"))
+APP_DIR = os.path.join(os.environ.get("HOME", "/home/edges"), "wxpaper")
+sys.path.insert(0, APP_DIR)
+os.environ.setdefault("WX_RUNTIME_DIR", APP_DIR)
 
 import forecast_core  # noqa: E402
 import webrender  # noqa: E402

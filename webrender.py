@@ -92,7 +92,7 @@ def render_page(data: dict, asset_dir) -> str:
         </div>
         <div class="uv"><img class="uv-icon" src="{uv_uri}" alt="UV index" /><span>{format_uv(data.get("uv"))}</span></div>
         <img class="condition-icon" src="{icon_uri}" alt="{text("condition")}" />
-        <div class="date"><span>{text("weekday")}</span><span>{text("date")}</span></div>
+        <div class="date"><span>{text("weekday")}</span><span>{text("date")}</span><span>{text("letterDay")}</span></div>
       </section>
 
       <footer class="info">

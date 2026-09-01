@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Weather + allowance data for the wxpaper display.
+"""Weather, letter-day, and allowance data for the wxpaper display.
 
-Shared by webversion.py (local dev server) and web/forecast.py (CGI on 3e.org).
+Shared by webversion.py (local dev server) and web/index.py (CGI on 3e.org).
 Standard library only, so it runs unchanged under DreamHost's system python.
 """
 from pathlib import Path
@@ -16,6 +16,7 @@ import re
 
 ROOT = Path(__file__).resolve().parent
 ALLOWANCE_URL = "https://3e.org/private/allowance-capy-retrieve.py"
+LETTER_DAY_URL = "https://3e.org/aps/letter_day_calculator.php"
 TZ = ZoneInfo("America/New_York")
 
 
@@ -61,8 +62,18 @@ def fetch_forecast() -> dict:
         "lastUpdate": format_time(now),
         "weekday": now.strftime("%a"),
         "date": now.strftime("%b %-d"),
+        "letterDay": letter_day(),
         "allowance": allowance_value,
     }
+
+
+def letter_day() -> str:
+    try:
+        with urlopen(LETTER_DAY_URL, timeout=5) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+        return str(payload.get("letterday", ""))
+    except (OSError, UnicodeDecodeError, ValueError, AttributeError):
+        return ""
 
 
 def event_countdown(today: date, event_date_str: Optional[str], label: Optional[str]) -> Optional[str]:
@@ -153,6 +164,9 @@ def _allowance_cache_path() -> Path:
     override = os.getenv("WX_ALLOWANCE_CACHE")
     if override:
         return Path(override)
+    runtime_dir = os.getenv("WX_RUNTIME_DIR")
+    if runtime_dir:
+        return Path(runtime_dir) / ".allowance-cache"
     return Path.home() / ".wxpaper-allowance-cache"
 
 
@@ -187,6 +201,7 @@ def fallback_data(reason: str) -> dict:
         "lastUpdate": format_time(now),
         "weekday": now.strftime("%a"),
         "date": now.strftime("%b %-d"),
+        "letterDay": letter_day(),
         "allowance": allowance_value,
     }
 
