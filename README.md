@@ -1,6 +1,6 @@
 e-ink weather display
 
-It works, but *please* don't follow this as an example. Practically every decision I made is the wrong one.
+It works, but *please* don't follow this as an example. Practically every decision I made is the wrong one. **I NO LONGER EVEN USE THIS - I use a TRMNL instead with the same UI.**
 
 * The e-ink display I chose is awful. The API is basically "draw a pixel or a square or a circle" and that's it. You can also draw a bitmap *that's already stored on the device*, but you can't upload one over the wire. The built in fonts are awful, so I did all the text rendering by displaying saved bitmaps.
 
